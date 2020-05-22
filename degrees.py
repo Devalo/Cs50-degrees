@@ -92,9 +92,51 @@ def shortest_path(source, target):
     If no possible path, returns None.
     """
 
-    # TODO
-    raise NotImplementedError
+    # A place to store explored steps
+    explored = set()
 
+    # Create the intial node, to have a start place
+    start = Node(state=source, parent=None, action=None)
+
+    # Use the BFS, and add the start node to the frontier
+    frontier = QueueFrontier()
+    frontier.add(start)
+
+    while True:
+        # If nothing is left in the frontier, then no solution. Return None
+        if frontier.empty():
+            return None
+
+        # Select a node from the frontier
+        # We remove it from the frontier, to be able to work on it
+        node = frontier.remove()
+
+        # If the node is the target goal add it to the actions
+        # go backwards and append the history of steps to the steps list
+        # reverse the list to get the proper history, and return
+        if node.state == target:
+            steps = []
+
+            while node.parent is not None:
+                steps.append((node.action, node.state))
+                node = node.parent
+
+            steps.reverse()
+            return steps
+
+        # Mark node as explored
+        explored.add(node.state)
+
+        # Add neighbors to frontier
+        # Check every neigboor to the node.
+        # If the node is not in the frontier, or in the explored list, add it as a child,
+        # whith the current node as the parent.
+        # Add the child to the frontier
+
+        for action, state in neighbors_for_person(node.state):
+            if not frontier.contains_state(state) and state not in explored:
+                child = Node(state=state, parent=node, action=action)
+                frontier.add(child)
 
 def person_id_for_name(name):
     """

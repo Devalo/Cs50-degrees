@@ -11,6 +11,9 @@ class StackFrontier():
 
     def add(self, node):
         self.frontier.append(node)
+  #      print(f"Node state: {node.state}")
+ #       print(f"Node parent: {node.parent}")
+#        print(f"Node action: {node.action}")
 
     def contains_state(self, state):
         return any(node.state == state for node in self.frontier)
